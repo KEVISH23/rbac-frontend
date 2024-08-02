@@ -1,0 +1,34 @@
+ V bad solution
+ 
+ ngOnInit() {
+    if (!localStorage.getItem('permission')) {
+      this.authService.getPermission().subscribe((response) => {
+        if (response.status) {
+          const [data] = response.data
+          if (response.data[0].read) {
+            this.permission.push(`${data.roleName}_read`)
+          }
+          if (response.data[0].write) {
+            this.permission.push(`${data.roleName}_write`)
+          }
+
+
+        }
+      }
+        , (error) => {
+          console.log(error)
+        },
+        () => {
+          this.ngxService.loadPermissions(this.permission)
+          localStorage.setItem('permission', JSON.stringify(this.permission))
+          this.ngxService.permissions$.subscribe(x => console.log(x))
+        }
+      )
+    } else {
+
+      this.ngxService.loadPermissions(JSON.parse(localStorage.getItem('permission') ?? ""))
+    }
+    // this.ngxService.addPermission('admin_write')
+    // console.log(this.ngxService.getPermissions());
+  }
+but in live they are doing the same
