@@ -16,8 +16,9 @@ export class AppComponent implements OnInit {
     private ngxService: NgxPermissionsService,
   ) { }
   ngOnInit() {
-    if (!localStorage.getItem('permission')) {
+    // if (!localStorage.getItem('permission')) {
       this.authService.getPermission().subscribe((response) => {
+        console.log(response)
         if (response.status) {
           const [data] = response.data
           if (response.data[0].read) {
@@ -33,14 +34,15 @@ export class AppComponent implements OnInit {
         },
         () => {
           this.ngxService.loadPermissions(this.permission)
-          localStorage.setItem('permission', JSON.stringify(this.permission))
+          // localStorage.setItem('permission', JSON.stringify(this.permission))
           this.ngxService.permissions$.subscribe(x => console.log(x))
         }
       )
-    } else {
+    // } 
+    // else {
 
-      this.ngxService.loadPermissions(JSON.parse(localStorage.getItem('permission') ?? ""))
-    }
+    //   this.ngxService.loadPermissions(JSON.parse(localStorage.getItem('permission') ?? ""))
+    // }
   }
 
   ngOnDestroy() {
